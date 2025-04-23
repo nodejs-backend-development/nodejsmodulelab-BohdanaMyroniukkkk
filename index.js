@@ -1,14 +1,8 @@
-const http = require('http');
+const CustomStream = require('./customStream');
+const { stdin, stdout } = require('process');
 
-const host = 'localhost';
-const port = 8000;
+// Підключаємо CustomStream
+const customStream = new CustomStream();
 
-const server = http.createServer((req, res) => {
-    // Replace this code by your own
-    res.writeHead(200);
-    res.end('Hello from Server!!!!');
-});
-
-server.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
-});
+// Підключаємо потоки: ввід → трансформація → вивід
+stdin.pipe(customStream).pipe(stdout);
